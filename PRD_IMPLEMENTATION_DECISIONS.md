@@ -58,8 +58,8 @@
 | --- | --- | --- |
 | 前端 | Next.js 16.2.7、React 19.2.4、Vercel | 實作前需讀相應 Next.js 16 本地文件 |
 | 可變資料 | 目前使用 Neon PostgreSQL | Neon 不提供香港 region；在全量香港駐留要求下不能作生產資料庫 |
-| DB schema | `lib/crawler/db.ts` 在 runtime 使用 `CREATE TABLE IF NOT EXISTS` | 不具備版本化 migration、rollback、dry-run 或 schema drift 控制，不能沿用為核心 CRM migration 策略 |
-| CRM | 學生資料來自 `lib/mock/students.ts` | 現有 16 欄是展示資料，不是正式持久化契約 |
+| DB schema | `modules/schools/infrastructure/crawler/db.ts` 在 runtime 使用 `CREATE TABLE IF NOT EXISTS` | 不具備版本化 migration、rollback、dry-run 或 schema drift 控制，不能沿用為核心 CRM migration 策略 |
+| CRM | 學生資料來自 `modules/crm/infrastructure/mock-students.ts` | 現有 16 欄是展示資料，不是正式持久化契約 |
 | 認證 | `package.json` 未見正式 auth 套件 | 帳號生命週期、MFA、session revoke 和服務端授權仍待交付 |
 | 測試／migration | 未發現正式 frontend test、spec 或 migration 基線 | Phase 1 前需建立最小可重複驗證和 migration harness |
 | 學校資料 | 爬蟲發布四檔 immutable snapshot，前端 Git snapshot 讀取 | 基礎快照與可變人工修正必須維持不同所有權邊界 |

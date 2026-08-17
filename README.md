@@ -10,7 +10,7 @@
 
 ## 2. 当前执行边界
 
-截至 2026-08-17，仓库与文档整理已经完成，用户已确认开始“接手阶段 0”。当前步骤只建立本地 Release 1 的范围、需求追踪、现状审计、环境核对和开发票据基线；不修改业务行为。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码版本绑定的实现记录和验证证据继续保留在代码仓库 `docs/`。
+截至 2026-08-18，接手阶段 0.1 的范围确认和阶段 0.2 的需求追踪审计均已完成。阶段 1 已完成本地依赖底座、空库迁移、可切换的本地/Cognito 身份入口，以及业务模块的 `domain / application / infrastructure` 分层整理；下一步是阶段 1.3B，把合成组织、用户、成员关系、角色绑定和会话持久化到本地 PostgreSQL。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码版本绑定的实现记录和验证证据继续保留在代码仓库 `docs/`。
 
 当前不授权：
 
@@ -39,9 +39,12 @@
 
 | 文档 | 类型 | 状态与用途 |
 |---|---|---|
-| `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md` | 中文接手范围基线 | `draft_for_user_review`；优先供用户审阅当前本地 Release 1 范围、证据顺序和执行约束 |
-| `TAKEOVER_PHASE0_SCOPE_BASELINE.md` | 英文接手范围基线 | `draft_for_user_review`；与中文阅读版保持相同语义 |
-| `product/RELEASE1_REQUIREMENTS_READER.zh-CN.md` | 中文需求阅读版 | `reader_copy_for_review`；按业务流程解释现有 accepted/amended 需求，供逐章确认，不替代决策台账 |
+| `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md` | 中文接手范围基线 | `accepted_current_scope`；2026-08-17 已由用户确认，固定当前本地 Release 1 范围、证据顺序和执行约束 |
+| `TAKEOVER_PHASE0_SCOPE_BASELINE.md` | 英文接手范围基线 | `accepted_current_scope`；与中文阅读版保持相同语义 |
+| `product/RELEASE1_REQUIREMENTS_READER.zh-CN.md` | 中文需求阅读版 | `reader_copy_confirmed`；用户已确认现有需求方向，本文仍不替代决策台账 |
+| `product/RELEASE1_REQUIREMENTS_TRACEABILITY_MATRIX.zh-CN.md` | 阶段 0.2 需求追踪矩阵 | `accepted_stage1_input`；连接需求、页面、API、模块、数据库和测试，作为阶段 1 的缺口基线 |
+| `product/IDENTITY_CONTEXT.md` | Identity 领域术语 | `active_domain_language`；区分内部 Account Disable、Cognito Revoke Effect、Reconciliation Attempt 和 Revoke Receipt |
+| `decisions/R1X-DECISION-BASELINE-20260812.md` | Portal/Billing 决策基线 | `implementation_baseline_selected`；DP-01 至 DP-12 可约束本地实现，但真实启用仍需独立 gate |
 | `PRD_IMPLEMENTATION_DECISIONS.md` | 决策台账 | `authoritative_active`；保存已批准、修订、取代和待决事项 |
 | `PRD_PHASE_IMPLEMENTATION_PLAN.md` | 阶段实施计划 | `authoritative_active`；Release 1 ticket graph、依赖和验收证据基线 |
 | `PHASE3_EMPTY_TENANT_PILOT_REVISION_PLAN.md` | 阶段修订 | `adopted_amendment`；修订 Phase 3/4 的空租户、重建和试点规则 |
@@ -50,7 +53,7 @@
 | `TECHNICAL_DESIGN_AWS_CLOUDFLARE_PRODUCTION_DEPLOYMENT.md` | 生产部署设计 | `approved_design_execution_deferred`；不构成 plan/apply/deploy 权限 |
 | `product/BUSINESS_CONTEXT_AND_FUTURE_BACKLOG.md` | 产品输入 | `candidate_input`；历史业务背景和 Release 1 之后的候选能力，不是批准需求 |
 
-首次接手建议先阅读中文需求阅读版，再按其中的 `DEC-*` 编号查阅决策台账；需要安排开发顺序和验收证据时，再进入阶段实施计划。
+首次接手建议先阅读中文需求阅读版，再按其中的 `DEC-*` 编号查阅决策台账；当前开发排序先参考阶段 0.2 追踪矩阵，再进入阶段实施计划中的具体票据。
 
 ### 待权威同步事项
 
@@ -60,7 +63,7 @@
 - 本地使用确定性合成数据，不导入真实业务数据；
 - 本地计划采用 Colima、Docker Compose、PostgreSQL 17、LocalStack、ClamAV 和开发专用角色登录；
 - Platform Billing 当前交付只包含推进中个案计数与合同参考值，不计算金额、账单或付款；
-- `R1X-DECISION-BASELINE-20260812.md` 的 DP-01 至 DP-12 已被用户选择为本地实现基线，但不授权任何真实或生产使用。
+- `decisions/R1X-DECISION-BASELINE-20260812.md` 的 DP-01 至 DP-12 已被用户选择为本地实现基线，但不授权任何真实或生产使用。
 
 在同步完成前，用户最新明确决定优先，旧状态不得被解释为云端执行授权。
 
@@ -99,12 +102,18 @@
 
 | 状态 | 含义 |
 |---|---|
+| `accepted_current_scope` | 用户已确认的当前接手范围；不自动授权提交、推送、外部操作或部署 |
+| `reader_copy_confirmed` | 中文阅读版中的需求方向已经确认；权威规则仍以决策台账为准 |
+| `draft_for_user_review` | 已完成初稿或静态审计，等待用户核对后才能进入下一步骤 |
+| `accepted_stage1_input` | 阶段 0.2 审计已确认，可作为阶段 1 排序输入；仍需随代码进度更新 |
 | `authoritative_active` | 当前权威来源，仍需遵守其内部 gate |
 | `adopted_amendment` | 已采纳的局部修订，覆盖被明确点名的旧内容 |
 | `active_with_later_constraints` | 内容仍有用，但必须结合后续决策读取 |
 | `accepted_future_production_target` | 生产方向已接受，不代表获准执行 |
 | `approved_design_execution_deferred` | 设计可以作为未来输入，当前不得操作外部系统 |
 | `candidate_input` | 候选产品输入，尚未批准为需求 |
+| `active_domain_language` | 当前统一使用的领域术语；不等同于运行实现或发布证据 |
+| `implementation_baseline_selected` | 可约束本地实现的决策基线；保留文档内列出的人工和生产 gate |
 | `research_only` | 研究证据，不是决定 |
 | `historical_non_authoritative` | 仅供追溯，不得作为现行前提 |
 

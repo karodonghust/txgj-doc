@@ -99,7 +99,7 @@ Authority sync 只批准 scope 和兩個 architecture invariants，不批准 `DP
 | 第二租戶 schema gate | `001_expand_identity_access.sql` 的 `access_organizations_one_active_idx` 目前強制最多一個 active organization | 保留此 guard，直至 `DEC-060`、`DP-06`–`DP-11` 和跨租戶 evidence 全部批准；之後以獨立 migration 移除／取代 | Access + Data + Security |
 | Historical reconstruction | `P3-03/04` 尚未開始 | contract/policy/service/repository、migration、Route Handlers、Advisor draft／Founder review UI、atomic activation | Cases |
 | Privacy-safe telemetry | `P3-05/06` 尚未開始 | allowlist schema、producer rejection、HK sink adapter、degraded state、30-day retention、alert receipt | AuditOperations |
-| 正式 CRM UI data path | `/students` 仍使用 `lib/mock/students.ts`；部分 `/cases` 頁與文案仍使用 legacy Neon `/api/cases` | Student 360/list/create、case list/new/detail/workspace 全部切 `/api/v1` owning interfaces；移除 production mock/Neon fallback 和錯誤文案 | CRM + Cases + UI |
+| 正式 CRM UI data path | `/students` 仍使用 `modules/crm/infrastructure/mock-students.ts`；部分 `/cases` 頁與文案仍使用 legacy Neon `/api/cases` | Student 360/list/create、case list/new/detail/workspace 全部切 `/api/v1` owning interfaces；移除 production mock/Neon fallback 和錯誤文案 | CRM + Cases + UI |
 | 完整 Route Handler surface | 現有 Route Handlers 主要覆蓋 command；部分 list/detail/read model 尚未形成正式 interface | 補齊 organization-scoped queries、pagination/filter、stable envelopes、denied/empty/error state | 各 owning module |
 | Auth runtime | Cognito adapter/interface 已有，但正式 runtime 未配置 | Cognito `ap-east-1` verifier、opaque session repository、TOTP/revoke/reconciliation、cookie/callback origin | Identity |
 | Document effects | upload/scan/version/policy interface 已有，但 production S3/SQS/scanner 未接通 | quarantine-first S3 intent、scan worker、DLQ、idempotency、reconciliation、restore | Documents |

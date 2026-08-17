@@ -5,8 +5,9 @@
 
 | Field | Value |
 | --- | --- |
-| Status | `draft_for_user_review` |
+| Status | `accepted_current_scope` |
 | Baseline date | 2026-08-17 |
+| User confirmation date | 2026-08-17; the existing requirement direction and this scope were accepted as the basis for subsequent work |
 | Code baseline | `3dbea7534170a98b5bae34c1750dbb65f568ed3e` on `origin/main` |
 | Product-document baseline | local-only `txgj-doc` commit `83df7812149aed8a99be83d9ff2800c9d7140bfc` |
 | Authorized delivery target | Operable local Release 1 using deterministic synthetic data |
@@ -139,6 +140,5 @@ counts without changing this scope boundary.
 - No business code, runtime, toolchain, external service, or release state was
   changed.
 
-The next proposed step is Phase 0.2: build the requirement-to-page/API/module/
-database/test traceability matrix. It requires separate user confirmation after
-review of this baseline.
+The user accepted this baseline, completing Phase 0.1. Phase 0.2 now builds the
+requirement-to-page/API/module/database/test traceability matrix.
