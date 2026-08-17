@@ -10,7 +10,7 @@
 
 ## 2. 当前执行边界
 
-截至 2026-08-17，当前工作只包含仓库与文档整理。后续目标是使用合成数据交付可操作的本地 Release 1，但开始开发仍需用户单独确认。
+截至 2026-08-17，仓库与文档整理已经完成，用户已确认开始“接手阶段 0”。当前步骤只建立本地 Release 1 的范围、需求追踪、现状审计、环境核对和开发票据基线；不修改业务行为。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码版本绑定的实现记录和验证证据继续保留在代码仓库 `docs/`。
 
 当前不授权：
 
@@ -39,6 +39,9 @@
 
 | 文档 | 类型 | 状态与用途 |
 |---|---|---|
+| `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md` | 中文接手范围基线 | `draft_for_user_review`；优先供用户审阅当前本地 Release 1 范围、证据顺序和执行约束 |
+| `TAKEOVER_PHASE0_SCOPE_BASELINE.md` | 英文接手范围基线 | `draft_for_user_review`；与中文阅读版保持相同语义 |
+| `product/RELEASE1_REQUIREMENTS_READER.zh-CN.md` | 中文需求阅读版 | `reader_copy_for_review`；按业务流程解释现有 accepted/amended 需求，供逐章确认，不替代决策台账 |
 | `PRD_IMPLEMENTATION_DECISIONS.md` | 决策台账 | `authoritative_active`；保存已批准、修订、取代和待决事项 |
 | `PRD_PHASE_IMPLEMENTATION_PLAN.md` | 阶段实施计划 | `authoritative_active`；Release 1 ticket graph、依赖和验收证据基线 |
 | `PHASE3_EMPTY_TENANT_PILOT_REVISION_PLAN.md` | 阶段修订 | `adopted_amendment`；修订 Phase 3/4 的空租户、重建和试点规则 |
@@ -46,6 +49,8 @@
 | `TECHNICAL_DECISION_PRODUCTION_PLATFORM.md` | 技术决策 | `accepted_future_production_target`；AWS 香港敏感平面和 Cloudflare 公开平面 |
 | `TECHNICAL_DESIGN_AWS_CLOUDFLARE_PRODUCTION_DEPLOYMENT.md` | 生产部署设计 | `approved_design_execution_deferred`；不构成 plan/apply/deploy 权限 |
 | `product/BUSINESS_CONTEXT_AND_FUTURE_BACKLOG.md` | 产品输入 | `candidate_input`；历史业务背景和 Release 1 之后的候选能力，不是批准需求 |
+
+首次接手建议先阅读中文需求阅读版，再按其中的 `DEC-*` 编号查阅决策台账；需要安排开发顺序和验收证据时，再进入阶段实施计划。
 
 ### 待权威同步事项
 
