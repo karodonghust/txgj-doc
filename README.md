@@ -10,7 +10,7 @@
 
 ## 2. 当前执行边界
 
-截至 2026-08-18，接手阶段 0.1 的范围确认和阶段 0.2 的需求追踪审计均已完成。阶段 1 已完成本地依赖底座、空库迁移、可切换的本地/Cognito 身份入口，以及业务模块的 `domain / application / infrastructure` 分层整理；下一步是阶段 1.3B，把合成组织、用户、成员关系、角色绑定和会话持久化到本地 PostgreSQL。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码版本绑定的实现记录和验证证据继续保留在代码仓库 `docs/`。
+截至 2026-08-18，接手阶段 0.1 的范围确认和阶段 0.2 的需求追踪审计均已完成。阶段 1 已完成本地依赖底座、数据库迁移、可切换的本地/Cognito 身份入口、PostgreSQL 合成身份与持久化 Session，以及业务模块的 `domain / application / infrastructure` 分层整理；下一步是阶段 2 的首个内部 ERP API v1 纵向闭环。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码版本绑定的实现记录和验证证据继续保留在代码仓库 `docs/`。
 
 当前不授权：
 
