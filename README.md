@@ -10,11 +10,12 @@
 
 ## 2. 当前执行边界
 
-截至 2026-08-18，接手阶段 0 和阶段 1 已完成。阶段 2A 已在本地贯通 CRM Student 读取和“从既有 Student 建立 K12 ServiceCase”的首个 API v1 纵向切片，并通过用户人工验收。阶段 2B 已贯通 15 字段 Assessment 读取、逐字段保存、明确语义状态和 `background_complete` 门禁，并于 2026-08-18 获得用户验收，代码提交为 `9ef226a`。阶段 2C 已完成 Primary Advisor 案件推进和 Founder 带原因回退的本地实现、端到端验证及用户验收，代码提交 `c22c04e` 已推送至 `origin/main`。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码、迁移和测试仍是实际完成度的最终证据。
+截至 2026-08-18，接手阶段 0 和阶段 1 已完成。阶段 2A 至 2D 已完成 CRM 建案、Assessment、Case Stage Transition 和 candidate SchoolTarget 的本地纵向切片与验收；SchoolTarget 及权限/配置规划已通过 PR #1 合并，P2-13 Slice A 权限合同已通过 PR #2 合并。下一支持票是 `ENV-01` Vercel 合成测试运行时；它只授权源码设计与实现，外部 Vercel/test PostgreSQL 配置仍需 exact payload 单独批准。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码、迁移、测试和已合并 PR 仍是实际完成度的最终证据。
 
 当前不授权：
 
-- AWS、Cloudflare、Vercel、DNS、Terraform 或生产数据库操作；
+- AWS、Cloudflare、DNS、Terraform 或生产数据库操作；
+- 新建或修改 Vercel/test PostgreSQL 云资源、外部 migration/seed/provision 或 secret；既有 PR Preview 只作为合成数据测试构建门禁；
 - 真实 Student、Guardian、ServiceCase、文件或其他 PII 的导入和处理；
 - 自动爬虫调度和生产 snapshot 发布；
 - 生产首案、Portal 首次真实授权或第二组织启用。
@@ -48,6 +49,7 @@
 | `PHASE2C_CASE_STAGE_TRANSITION.md` | 阶段 2C 实施记录 | `accepted_local`；记录首个案件阶段推进、回退、数据库边界和本地证据 |
 | `product/IDENTITY_CONTEXT.md` | Identity 领域术语 | `active_domain_language`；区分内部 Account Disable、Cognito Revoke Effect、Reconciliation Attempt 和 Revoke Receipt |
 | `decisions/R1X-DECISION-BASELINE-20260812.md` | Portal/Billing 决策基线 | `implementation_baseline_selected`；DP-01 至 DP-12 可约束本地实现，但真实启用仍需独立 gate |
+| `decisions/ENVIRONMENT_AND_TEST_AUTH_ARCHITECTURE_20260818.md` | 三环境与测试身份决策 | `accepted_for_source_implementation`；本机 development、Vercel synthetic test、AWS production 分离，外部资源仍需 exact approval |
 | `PRD_IMPLEMENTATION_DECISIONS.md` | 决策台账 | `authoritative_active`；保存已批准、修订、取代和待决事项 |
 | `PRD_PHASE_IMPLEMENTATION_PLAN.md` | 阶段实施计划 | `authoritative_active`；Release 1 ticket graph、依赖和验收证据基线 |
 | `PHASE3_EMPTY_TENANT_PILOT_REVISION_PLAN.md` | 阶段修订 | `adopted_amendment`；修订 Phase 3/4 的空租户、重建和试点规则 |

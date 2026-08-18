@@ -4,8 +4,8 @@
 
 | Control | Value |
 | --- | --- |
-| Document version | `v0.11` |
-| Date | 2026-08-12 (Asia/Hong_Kong) |
+| Document version | `v0.12` |
+| Date | 2026-08-18 (Asia/Hong_Kong) |
 | Status | **`P3-02` local deterministic evidence is `needs_human`; `DEC-067`/`DEC-068` implementation baselines are approved; `DP-01`–`DP-12` and all production actions remain separately approval-gated** |
 | Task ID | `prd-phase-implementation-plan-2026-07-31` |
 | Release | Release 1, single-organization K12 operations core + bounded External Portal + aggregate-only PlatformBilling |
@@ -66,7 +66,7 @@ Historical documents and generated snapshots are evidence, not authority for new
 ### 1.4 Assumptions, constraints, and approval boundaries
 
 - The approved application architecture is a modular monolith. The existing Next.js 16 application remains the UI shell; authenticated ERP pages, BFF Route Handlers, and all server-only modules run in AWS `ap-east-1`. Background workers are separate processes using the same owning-module contracts. `[DEC-018, DEC-021, DEC-056]`
-- Vercel may host only verified static, non-sensitive public assets. It must not receive authenticated requests, PII, personalized cache, previews, logs, traces, or support payloads. If this cannot be proven, the production ERP is entirely served from AWS Hong Kong. `[DEC-021, DEC-054]`
+- In production, Vercel may host only verified static, non-sensitive public assets. `DEC-070` separately permits an authenticated Vercel test environment only with isolated synthetic-only PostgreSQL and no real PII; it is never a production, rollback or DR plane. If the production public-plane boundary cannot be proven, the production ERP is entirely served from AWS Hong Kong. `[DEC-021, DEC-054, DEC-070]`
 - Cognito proves identity only. RDS User/session/role/case/scope/capability/expiry policy is authoritative. The browser gets only a random opaque cookie. `[DEC-007, DEC-020]`
 - RDS PostgreSQL is private; S3 is private, versioned, SSE-KMS encrypted, and accessed through narrow presigned intents after fresh server authorization. `[DEC-019, DEC-024]`
 - The crawler four-file snapshot is an immutable base. Human changes are RDS overlay revisions. No source or snapshot file is hand-edited. `[DEC-016, DEC-050]`
@@ -88,11 +88,12 @@ The plan is complete when all current decisions are mapped, every requested comp
 
 ## 2. Decision Traceability
 
-The ledger namespace contains 68 IDs. Under the adopted Phase 3/4 and R1X scope revisions, 67 are closed/current: 59 `accepted`, one `accepted_with_constraint` (`DEC-007`), and seven `amended` (`DEC-001`, `DEC-011`, `DEC-016`, `DEC-031`, `DEC-033`, `DEC-054`, `DEC-057`). `DEC-060` remains open. Reconstruction, telemetry, placement, Portal/Billing, and the P3-03/P3-07 implementation contracts are accepted as `DEC-061`–`DEC-068`.
+The ledger namespace contains 70 IDs. Under the adopted Phase 3/4, R1X, access/configuration and environment revisions, 69 are closed/current: 60 `accepted`, one `accepted_for_planning` (`DEC-069`), one `accepted_with_constraint` (`DEC-007`), and seven `amended` (`DEC-001`, `DEC-011`, `DEC-016`, `DEC-031`, `DEC-033`, `DEC-054`, `DEC-057`). `DEC-060` remains open. `DEC-070` permits source implementation for an isolated synthetic Vercel test environment without authorizing cloud resource changes or real data.
 
 Machine-checkable status inventory:
 
-- `accepted` (59): `DEC-002`, `DEC-003`, `DEC-004`, `DEC-005`, `DEC-006`, `DEC-008`, `DEC-009`, `DEC-010`, `DEC-012`, `DEC-013`, `DEC-014`, `DEC-015`, `DEC-017`, `DEC-018`, `DEC-019`, `DEC-020`, `DEC-021`, `DEC-022`, `DEC-023`, `DEC-024`, `DEC-025`, `DEC-026`, `DEC-027`, `DEC-028`, `DEC-029`, `DEC-030`, `DEC-032`, `DEC-034`, `DEC-035`, `DEC-036`, `DEC-037`, `DEC-038`, `DEC-039`, `DEC-040`, `DEC-041`, `DEC-042`, `DEC-043`, `DEC-044`, `DEC-045`, `DEC-046`, `DEC-047`, `DEC-048`, `DEC-049`, `DEC-050`, `DEC-051`, `DEC-052`, `DEC-053`, `DEC-055`, `DEC-056`, `DEC-058`, `DEC-059`, `DEC-061`, `DEC-062`, `DEC-063`, `DEC-064`, `DEC-065`, `DEC-066`, `DEC-067`, `DEC-068`.
+- `accepted` (60): `DEC-002`, `DEC-003`, `DEC-004`, `DEC-005`, `DEC-006`, `DEC-008`, `DEC-009`, `DEC-010`, `DEC-012`, `DEC-013`, `DEC-014`, `DEC-015`, `DEC-017`, `DEC-018`, `DEC-019`, `DEC-020`, `DEC-021`, `DEC-022`, `DEC-023`, `DEC-024`, `DEC-025`, `DEC-026`, `DEC-027`, `DEC-028`, `DEC-029`, `DEC-030`, `DEC-032`, `DEC-034`, `DEC-035`, `DEC-036`, `DEC-037`, `DEC-038`, `DEC-039`, `DEC-040`, `DEC-041`, `DEC-042`, `DEC-043`, `DEC-044`, `DEC-045`, `DEC-046`, `DEC-047`, `DEC-048`, `DEC-049`, `DEC-050`, `DEC-051`, `DEC-052`, `DEC-053`, `DEC-055`, `DEC-056`, `DEC-058`, `DEC-059`, `DEC-061`, `DEC-062`, `DEC-063`, `DEC-064`, `DEC-065`, `DEC-066`, `DEC-067`, `DEC-068`, `DEC-070`.
+- `accepted_for_planning` (1): `DEC-069`.
 - `accepted_with_constraint` (1): `DEC-007`.
 - `amended` (7): `DEC-001`, `DEC-011`, `DEC-016`, `DEC-031`, `DEC-033`, `DEC-054`, `DEC-057`.
 - `open` (1): `DEC-060`; guard only, never an implementation premise.
@@ -112,6 +113,7 @@ Machine-checkable status inventory:
 | `DEC-064`, `DEC-065`, `DEC-066` | Sections 1, 3-12 | `R1X-00`-`R1X-12` | Bounded Portal and aggregate-only PlatformBilling are Release 1 scope; portal lookup is function-only; platform audit is separate. Open DP gates still block their dependent semantics and production activation. |
 | `DEC-067` | Sections 4-12 | `P3-03`, `P3-04`, `P3-08`, `P3-11`, `P3-19`, `P4-01`-`P4-03`, `P4-08` | Reconstruction uses versioned existing-domain events, server time and immutable ordering; third change cycle stops; activation is append-only and emits only one PII-free event after repository approval verification. |
 | `DEC-068` | Sections 3, 7-12 | `P3-07`, `P3-07A`, `P3-10`, `R1X-10` | Production source fixes private two-AZ ECS/RDS/WAF baselines and required external payloads; P3-07A alone produces the saved binary plan under separate approval, and only its SHA may identify a later separately approved apply. |
+| `DEC-069`, `DEC-070` | Sections 1-3, 7-12 | `P2-13`-`P2-15`, `ENV-01` | One capability/configuration authority; local development, isolated Vercel synthetic test and AWS Hong Kong production are explicit fail-closed combinations. Vercel test never authorizes real data or production use. |
 | `DEC-060` (`open`) | Section 11 | None until approved | Not implemented or inferred. |
 
 Every implementation ticket below carries its own DEC list. A DEC mention is traceability, not authorization to execute the ticket.
@@ -647,6 +649,7 @@ Tickets are vertical tracer bullets where possible. “Approval” means the lis
 | `P2-13` One versioned permission policy drives server capability checks, page guards and navigation | Create Access policy migration/repository/evaluator and navigation registry; modify `/api/v1/auth/me`, protected layouts, Route Handlers, Services and Access read UI/tests | Identity local runtime, `P1-06/16`, `P2-04`; `DEC-007-011,020,029,053,057,069` | Bootstrap policy preserves the five-role matrix; no direct role arrays remain on migrated paths; page/API/resource denial matrix, activation hash, audit and rollback pass | Activate prior approved version; fail closed with no active policy; Founder/Security review before activation |
 | `P2-14` Typed runtime configuration removes scattered operational constants without weakening security bounds | Create validated runtime config composition; migrate session/invite policy, timeout/retry/upload TTL, storage region/bucket and default timezone consumers/tests | `P2-13`; `DEC-017,020,023,030,069` | One owner and schema per setting; production has no unsafe fallback; local defaults explicit; invalid values stop startup; existing behavior retained | Restore prior reviewed config version; restart only after validation; Operations/Security approval |
 | `P2-15` Organization presentation configuration replaces fixed dates, preview authority and duplicated labels | Create organization settings/presentation catalogue adapters; modify Today, navigation, Assessment, Dashboard, SchoolTarget and crawler presentation/tests | `P2-13/14`; `DEC-003,012,052,055,069` | Organization timezone drives dates; no fixed 2026-08 filter or preview authority; schema-owned labels follow manifest; desktop/mobile/locale/empty/error states pass | Revert to previous approved catalogue; presentation fallback cannot widen data or access; Product/UX approval |
+| `ENV-01` Isolated Vercel synthetic test runtime uses database-backed login without becoming production | Create environment matrix/config parser, database-test identity adapter/session migration/provision command and login UI/tests; no external config in source ticket | `P2-13`; `DEC-020,021,054,069,070` | `NODE_ENV=production` on Vercel; isolated synthetic-only DB; no role selector; salted verifier, lockout and opaque session; invalid combinations fail closed | Disable adapter and deploy prior version; rotate/delete test secrets and synthetic DB only under exact approval |
 
 ### Phase 3 tickets (21 templates: one adoption prerequisite, one binary-plan producer, plus 7 release gates)
 

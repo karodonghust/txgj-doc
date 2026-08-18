@@ -915,3 +915,11 @@ Phase 0  contracts / harness / threat model
 - Role、capability、resource、scope、action 與穩定 denial code 是程式契約；role-capability 關係採 organization-scoped immutable versioned policy，只有明確 allow，缺失即 deny。首版由追加 migration 固定現有已批准矩陣，Release 1 不提供任意線上編輯器。
 - Access module 是 workspace capability 的唯一服務端決策入口；Route Handler、Service、page guard 和 navigation registry 共用 capability ID。UI visibility 只改善體驗，不能替代 owning repository 在同一 transaction 重新檢查 organization、membership、RoleBinding、resource assignment、scope、expiry 和 policy version。
 - 配置分為安全不變量、版本化業務策略、部署運行配置與 organization 展示配置四層；不得以一個通用 key-value 表混合承載。詳見 `decisions/ACCESS_AND_CONFIGURATION_ARCHITECTURE_20260818.md`，並依 `P2-13`、`P2-14`、`P2-15` 實施。
+
+### DEC-070：本機開發、Vercel 合成測試與 AWS 生產分離
+
+- 狀態：`accepted`（2026-08-18 使用者批准 source architecture；不等於批准建立/修改 Vercel、PostgreSQL 或 AWS 資源、外部 migration/seed/provision、真實資料或 production release）
+- `NODE_ENV` 不作 business environment selector。本機使用 `NODE_ENV=development`、`APP_ENV=development`、`APP_RUNTIME_MODE=local-synthetic`、`AUTH_MODE=local-synthetic`；Vercel 測試使用 `NODE_ENV=production`、`APP_ENV=test`、`APP_RUNTIME_MODE=test-database`、`AUTH_MODE=database-test`；AWS 生產使用 `NODE_ENV=production`、`APP_ENV=production`、`APP_RUNTIME_MODE=production-aws`、`AUTH_MODE=cognito`。`NODE_ENV=test` 只屬於 test runner。
+- Vercel 測試只能連接與 AWS 生產物理隔離的 test PostgreSQL，且只能保存 deterministic synthetic data。Migration owner 不可注入 Web runtime；migration、seed、test account provision 都是獨立批准的人工命令，不能在 build/start/request 時自動執行。
+- `database-test` 只接受已 provision 的 synthetic email/password，使用 versioned salted password verifier 和 database-backed opaque session；role、organization、membership 和 capability 從權威資料讀取，登入頁不得提供 role selector 或 PostgreSQL credential。Vercel Deployment Protection 是額外門禁，不取代 application auth。
+- 詳見 `decisions/ENVIRONMENT_AND_TEST_AUTH_ARCHITECTURE_20260818.md`，依 `ENV-01` 與 `P2-14` 實施。Vercel 測試不滿足 production residency，不得成為 production、rollback、DR 或真實資料平面。
