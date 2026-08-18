@@ -33,16 +33,16 @@
 | `mixed_partial` | 同一能力同时存在 Mock、旧路径和新契约，尚未形成一条端到端链路 |
 | `foundation_runtime_partial` | 本地依赖底座和数据库 schema 已实机运行，但合成身份或领域 runtime 尚未接通 |
 | `out_of_scope_visible` | Release 1 不包含该功能，但当前仍有可访问页面或导航入口 |
-| `local_operable` | 在当前本地环境完成页面、API、模块、数据库和聚焦测试验证；本次审计没有任何核心能力达到此状态 |
+| `local_operable` | 在当前本地环境完成页面、API、模块、数据库和聚焦测试验证；只描述已明确验收或记录的纵向切片，不外推到整个需求 |
 
 ## 3. 总体追踪矩阵
 
 | ID | 需求与决策来源 | 页面 | 目标 API | 领域模块 | 主要数据库表 | 现有测试证据 | 当前状态与主要缺口 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | R1-01 | 邀请制账号、角色、会话、案件授权；第 5 章，`DEC-007` 至 `DEC-011`、`DEC-020`、`DEC-029` | `/login`、`/login/activate`、`/admin/access` | `/api/v1/auth/*`、`/api/v1/cases/[caseId]/collaborators*` | `modules/identity`、`modules/access` | `identity_users`、`identity_sessions`、`identity_invites`、`access_*` | `identity-access-schema`、`identity-onboarding`、`identity-revoke-workflow`、`collaborator-scope-workflow`、`auth/mode`、`auth/runtime`、`local-synthetic-identity-postgresql` | `foundation_runtime_partial`：本地五角色身份和 opaque Session 已由受限 PostgreSQL Repository 管理，并通过 Next.js 重启、`/auth/me` 和登出验证；正式邀请激活和 Access 业务 runtime 仍未接通，真实 Cognito/RDS 也未执行 |
-| R1-02 | Student 与 ServiceCase 分离、Guardian 独立、主联系人关系；第 4 章，`DEC-004` 至 `DEC-006` | `/students`、`/students/[studentId]`、`/students/[studentId]/guardians` | `/api/v1/students/[studentId]/guardians`、`.../primary-handoffs`；当前没有 v1 Student 列表/详情 API | `modules/crm` | `crm_students`、`crm_guardians`、`crm_student_guardian_relationships`、`crm_referral_sources` | `crm-schema`、`guardian-relationship-workflow`、`duplicate-merge-workflow` | `mixed_partial`：学生列表和详情读取 `modules/crm/infrastructure/mock-students.ts`；Guardian 命令契约存在但 runtime 不可用；缺少 Student 查询和编辑链路 |
-| R1-03 | K12 ServiceCase、八阶段流程、版本冲突、幂等与受控回退；第 6 章，`DEC-027`、`DEC-032`、`DEC-044` | `/cases`、`/cases/new`、`/cases/[caseId]`、`/cases/[caseId]/workspace` | 目标为 `/api/v1/cases`、`/api/v1/cases/[caseId]/transitions`；现页面还使用 `/api/cases` | `modules/cases` | `cases_service_cases`、`cases_assessments`、`shared_idempotency_records`、`audit_events`、`audit_outbox` | `case-creation-workflow`、`case-transition-workflow`、`case-workspace-model`、`case-api-json-types` | `mixed_partial`：列表/新建仍走旧 Neon service，详情仍有 preview adapter；v1 只有创建和命令路由，缺少可用的列表/详情 read model；默认 cases runtime 不可用 |
-| R1-04 | 版本化四层 K12 评估、明确语义状态、阶段 blocker；第 7 章，`DEC-012`、`DEC-013` | 当前 16 字段显示位于 `/students/[studentId]`；正式编辑器用于案件 workspace | `/api/v1/cases/[caseId]/assessment` | `modules/cases/application/assessment-service.ts`、`modules/cases/domain/schema-resolver.ts`、`schema/k12` | `cases_schema_manifests`、`cases_schema_manifest_fields`、`cases_assessments`、`cases_assessment_answers` | `case-schema`、`k12-catalogue`、`assessment-workflow` | `mixed_partial`：正式 schema、服务和测试存在，但 runtime 不可用；现有页面 16 字段来自 Mock，未按正式 manifest 渲染；16 个旧字段与 15 个正式字段没有一一映射 |
+| R1-02 | Student 与 ServiceCase 分离、Guardian 独立、主联系人关系；第 4 章，`DEC-004` 至 `DEC-006` | `/students`、`/students/[studentId]`、`/students/[studentId]/guardians` | `/api/v1/students`、`/api/v1/students/[studentId]`、`/api/v1/students/[studentId]/guardians`、`.../primary-handoffs` | `modules/crm` | `crm_students`、`crm_guardians`、`crm_student_guardian_relationships`、`crm_referral_sources` | `crm-schema`、`guardian-relationship-workflow`、`duplicate-merge-workflow`、`local-synthetic-crm-postgresql` | `mixed_partial`：阶段 2A 已让 Student 列表和详情通过 API v1 读取 PostgreSQL；新增/编辑 Student、Guardian 页面和主联系人交接 runtime 仍未接通 |
+| R1-03 | K12 ServiceCase、八阶段流程、版本冲突、幂等与受控回退；第 6 章，`DEC-027`、`DEC-032`、`DEC-044` | `/cases`、`/cases/new`、`/cases/[caseId]`、`/cases/[caseId]/workspace` | `/api/v1/cases`、`/api/v1/cases/[caseId]`、目标 `/api/v1/cases/[caseId]/transitions` | `modules/cases` | `cases_service_cases`、`cases_assessments`、`shared_idempotency_records`、`audit_events`、`audit_outbox` | `case-creation-workflow`、`case-transition-workflow`、`case-workspace-service`、`PHASE2A_CRM_CASE_VERTICAL_SLICE.md` | `mixed_partial`：阶段 2A 已贯通列表、既有 Student 建案和详情，阶段 2B 保持案件阶段独立；阶段推进、回退、关闭和审批仍未接通 |
+| R1-04 | 版本化四层 K12 评估、明确语义状态、阶段 blocker；第 7 章，`DEC-012`、`DEC-013` | `/cases/[caseId]` 的正式 AssessmentEditor；旧 16 字段 Student preview 不作为正式契约 | `/api/v1/cases/[caseId]/assessment`、`.../assessment/background-completion` | `modules/cases/application/assessment-service.ts`、`modules/cases/infrastructure/postgresql-assessment-repository.ts`、`schema/k12` | `cases_schema_manifests`、`cases_schema_manifest_fields`、`cases_assessments`、`cases_assessment_answers` | `k12-catalogue`、`assessment-workflow`、`assessment-runtime-boundary`、`PHASE2B_ASSESSMENT_VERTICAL_SLICE.md` | `mixed_partial`：阶段 2B 已在本地贯通并验收 15 字段读取、逐字段版本保存、四种语义状态、10 个背景 blocker 和 `background_complete`；`selection_ready` 和后续字段决策未实现 |
 | R1-05 | SchoolTarget 独立状态、证据、终态结果和案件摘要；第 8 章，`DEC-027`、`DEC-058` | 案件详情和 workspace 中的学校目标区域 | `/api/v1/cases/[caseId]/school-targets*` | `modules/cases/application/school-target-service.ts`、`modules/cases/application/outcome-service.ts` | `cases_school_targets`、`cases_case_outcomes`、`schools_resolved_revisions` | `school-target-workflow`、`case-target-outcome-workflow` | `contract_only`：命令路由、服务、表和测试存在；页面仍展示 preview 数据，school-target 和 outcome runtime 默认不可用 |
 | R1-06 | Task 独立工作流、执行人完成、不同 Founder 审批；第 9 章，`DEC-028` | `/tasks`、`/cases/[caseId]#tasks`、`/contractor/tasks/[taskId]` | `/api/v1/tasks/[taskId]/transitions`、`/api/v1/contractor/tasks/[taskId]` | `modules/tasks` | `tasks_transition_policies`、`tasks_transition_rules`、`tasks_tasks`、`tasks_task_assignments`、`tasks_task_transition_receipts` | `task-workflow`、`contractor-task-workspace`、`tasks/transitions` | `mixed_partial`：任务总页读取 preview adapter 且 mutation 被禁用；承包人 workspace 和命令契约存在，但 runtime 不可用；缺少内部任务列表/创建 API |
 | R1-07 | 私有文件、隔离扫描、版本、软删除和恢复；第 10 章，`DEC-017` | `/documents`、`/cases/[caseId]#documents` | `/api/v1/cases/[caseId]/documents/upload-intents`、`.../deletions`、`.../restorations`、`.../version-rollbacks` | `modules/documents`、`modules/documents/infrastructure/object-store.ts`、`workers/scan-document.ts`、`workers/reconcile-documents.ts` | `documents_documents`、`documents_document_versions`、`documents_scan_results` | `document-upload-workflow`、`document-scan-workflow`、`document-version-workflow`、`document-store` | `mixed_partial`：本地 S3/SQS/ClamAV 底座已健康运行，但页面仍是 preview，文档 runtime、扫描 runtime 和版本 runtime 默认不可用，也没有文件列表 read model |
@@ -52,7 +52,7 @@
 | R1-11 | 单案件、限时、字段白名单的只读家长 Portal；第 12 章，`DEC-064`、`DEC-065` | `/portal/access`、`/portal/workspace`、`/cases/[caseId]/access` | `/api/v1/portal/sessions`、`/api/v1/portal/workspace`、`/api/v1/cases/[caseId]/portal-grants*` | `modules/external-portal` | `portal_viewers`、`portal_access_grants`、`portal_sessions`、`portal_security_events`、`portal_idempotency_records` | `portal-api-routes`、`portal-schema-contract`、`portal-repository-contract`、`portal/contract-policy`、`portal-pages` | `contract_only`：页面、allowlist、路由和测试存在；默认路由显式返回 runtime unavailable，尚无本地持久化组合和浏览器验收 |
 | R1-12 | 平台只统计推进中案件数量并显示合同参考值，不计算金额；第 13 章，`DP-06`、`DP-09`、`DP-11` | `/platform/billing` | `/api/v1/platform/billing/overview` | `modules/platform-billing` | `platform_billing_contract_versions`、`platform_billing_metric_snapshots`、`platform_billing_subscription_projections`、`cases_billing_projection_events` | `platform-billing-persistence`、`platform-billing-overview-route`、`platform-billing-schema-contract`、`platform-billing/contract-policy` | `contract_only`：计数和权限规则、页面模型及表存在；默认 runtime 不可用；尚未从本地案件事件生成月底快照 |
 | R1-13 | 使用受控事件逐案重建合成/未来既有案件；第 3、16 章，`DEC-061`、`DEC-067` | `/cases/reconstructions/new`、`/cases/reconstructions/[reconstructionId]` | `/api/v1/cases/reconstructions` | `modules/cases/domain/reconstruction`、`modules/cases/application/reconstruction`、`modules/cases/infrastructure/reconstruction` | `cases_reconstructions`、`cases_reconstruction_versions`、`cases_reconstruction_events`、`cases_reconstruction_gaps`、`cases_reconstruction_activations` | `case-reconstruction-workflow`、`case-reconstruction-route`、`case-reconstruction-schema`、`case-reconstruction-ui-model` | `contract_only`：事件契约、UI 模型、路由和表存在；默认 runtime 不可用；当前阶段只允许合成数据，不授权真实案件 |
-| R1-14 | 明确互斥的 `local-synthetic` 运行组合；阶段 0.1 当前范围 | 所有 Release 1 页面 | 为上述 v1 路由提供本地依赖；新增 `/api/v1/local/readiness` | 已有 fail-closed 本地配置、迁移 runner、依赖探测、身份 mode adapter 和 PostgreSQL 本地身份 Repository；尚未连接其他领域公开 runtime | PostgreSQL 17；LocalStack 模拟 S3/SQS；ClamAV | 17 条当前 migration ledger、61 张 public 表；真实 PostgreSQL 五角色与 Session 重启测试通过；应用 readiness 五项全 ready | `foundation_runtime_partial`：本地依赖、schema 和持久化合成身份已验证；其他领域 runtime 和 Worker 证据仍缺失，因此整体业务能力尚不属于 `local_operable` |
+| R1-14 | 明确互斥的 `local-synthetic` 运行组合；阶段 0.1 当前范围 | 所有 Release 1 页面 | 为上述 v1 路由提供本地依赖；`/api/v1/local/readiness` | fail-closed 本地配置、迁移 runner、依赖探测、身份 mode adapter，以及 Identity、CRM、Case/Assessment 的 PostgreSQL 本地 Repository | PostgreSQL 17；LocalStack 模拟 S3/SQS；ClamAV | 22 条 migration ledger、61 张 public 表；五角色 Session、CRM/Case 2A 和 Assessment 2B 本地证据；应用 readiness 五项全 ready | `foundation_runtime_partial`：底座和首批内部纵向切片可运行；SchoolTarget、Task、Document、Worker、Portal 和 Platform Billing 等其他 runtime 仍缺失 |
 | R1-X01 | AI/知识库、外部 AI 流程不在 Release 1；第 3 章 | `/ai`、`/admin/knowledge` | `/api/knowledge` | `modules/future/domain/feature-contracts.ts`、`modules/future/infrastructure/knowledge-db.ts` | 当前组合不创建知识库表 | `future-scope` 架构测试验证 Sidebar 只渲染不可点击占位；模块边界测试验证知识库 adapter fail closed | `contract_only`：未来功能在 Release 1 导航中不可点击，Knowledge adapter 拒绝执行且不再请求时建表；直接页面路由的统一拒绝边界仍需后续核验 |
 
 ## 4. 16 字段评估差异
@@ -94,15 +94,15 @@
 | GAP-01：没有 `local-synthetic` composition root | P0 | 几乎所有 v1 业务路由默认不可用 | 本地模式能显式装配 Postgres、对象存储/队列、扫描器和开发身份；非本地模式继续 fail closed |
 | GAP-02：Compose/Colima 与空库迁移底座 | 已关闭 | PostgreSQL 17、LocalStack、ClamAV 已健康运行；最初 15 份迁移已从空库重放，当前增量 ledger 为 17 | 保持 runbook、manifest、ledger、权限和 readiness 回归证据；恢复里程碑再补 17 份全量空库重放 |
 | GAP-03：合成身份尚未持久化 | 已关闭 | 固定组织、五个用户、membership、role binding 和 Session 已由本地 PostgreSQL 管理，并通过进程重启验证 | 保持最小权限、RLS、Cognito token 边界、幂等 seed 和聚焦回归证据 |
-| GAP-04：缺少核心 read model | P0 | Student、Case、Task、Document 无法从目标 API 列表/查看 | 为首个纵向切片定义最小查询 API，页面不再读 Mock/legacy service |
-| GAP-05：16 字段与正式 15 字段 schema 冲突 | P0 产品决策 | 直接开发会固化错误数据模型 | 对 16 个字段逐项作保留、改名、迁移或移出决定，并形成版本化 schema |
+| GAP-04：缺少核心 read model | 部分关闭 | Student 与 Case 已由 API v1/PostgreSQL 提供列表和详情；Task、Document 等模块仍不可用 | 各后续模块逐一建立最小查询 API，页面退出 Mock/legacy service |
+| GAP-05：16 字段与正式 15 字段 schema 冲突 | 正式路径已关闭 | 阶段 2B 明确采用四层 15 字段版本化 schema，旧 16 字段 preview 不写入正式 Assessment | 后续单独退出旧 preview；新增业务字段必须走版本化 schema 决策，不直接映射旧字段 |
 | GAP-06：学校数据存在 legacy 与目标两套写入路径 | P1 | 审核决定和工单仍依赖 Neon 请求时建表 | 定义快照转换/重新发布规则，并把可写状态迁入受迁移管理的本地 Postgres |
 | GAP-07：未来功能直接路由边界仍需核验 | P1 | 导航已不可点击，但仍需证明直接 URL 不能进入 Release 1 功能 | 知识库/AI 直接路由在当前组合中统一拒绝访问，并保留架构与浏览器证据 |
 | GAP-08：测试主要使用 fake，没有当前本地端到端证据 | P1 | 无法证明页面、API、数据库和 worker 共同可用 | 首个开发切片完成聚焦单元/集成、真实本地 Postgres 和浏览器证据 |
 
 ## 6. 阶段 0.2 结论与下一确认点
 
-当前仓库不是“什么都没做”：领域契约、迁移、命令服务和聚焦测试覆盖面较广。但它也不是“已经基本可用”：页面仍大量依赖 Mock/旧路径，目标 runtime 尚未装配，本轮没有发现可以认定为 `local_operable` 的核心端到端能力。
+当前仓库已经形成首批可本地操作的纵向切片：身份与 Session、CRM Student 读取、既有 Student 建案，以及正式 Assessment 背景收集。它仍不是完整可用的 Release 1：Guardian 编辑、案件阶段、SchoolTarget、Task、Document、Worker、Portal 和 Platform Billing 等模块尚未贯通。
 
 因此不建议从某个页面样式或孤立功能直接开工。阶段 1 本地运行底座当前进度为：
 
@@ -112,6 +112,6 @@
 4. 可切换的本地角色登录和 Cognito 登录边界已完成；
 5. 业务模块已统一按 `domain / application / infrastructure` 分层，并建立跨模块公开入口门禁；
 6. 确定性合成身份和 Session 已持久化到本地 PostgreSQL，并通过 Next.js 重启验证；
-7. 下一步选择阶段 2 的首个内部 ERP API v1 纵向闭环。
+7. 阶段 2A CRM/Case 与阶段 2B Assessment 背景收集均已验收。
 
-`GAP-05` 的字段冲突仍未解决，不影响先完成身份入口，但在开发正式 Assessment 写入前必须决策。
+`GAP-05` 已通过采用正式 15 字段版本化 schema 关闭；旧 16 字段页面只作为待退出 preview，不得反向成为正式数据契约。

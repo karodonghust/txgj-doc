@@ -10,7 +10,7 @@
 
 ## 2. 当前执行边界
 
-截至 2026-08-18，接手阶段 0.1 的范围确认和阶段 0.2 的需求追踪审计均已完成。阶段 1 已完成本地依赖底座、数据库迁移、可切换的本地/Cognito 身份入口、PostgreSQL 合成身份与持久化 Session，以及业务模块的 `domain / application / infrastructure` 分层整理。阶段 2A 已在本地贯通 CRM Student 读取和“从既有 Student 建立 K12 ServiceCase”的首个 API v1 纵向切片，并于 2026-08-18 通过用户人工验收；提交后再单独确认 2B。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码、迁移和测试仍是实际完成度的最终证据。
+截至 2026-08-18，接手阶段 0 和阶段 1 已完成。阶段 2A 已在本地贯通 CRM Student 读取和“从既有 Student 建立 K12 ServiceCase”的首个 API v1 纵向切片，并通过用户人工验收。阶段 2B 已贯通 15 字段 Assessment 读取、逐字段保存、明确语义状态和 `background_complete` 门禁，并于 2026-08-18 获得用户验收，代码提交为 `9ef226a`。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码、迁移和测试仍是实际完成度的最终证据。
 
 当前不授权：
 
@@ -44,6 +44,7 @@
 | `product/RELEASE1_REQUIREMENTS_READER.zh-CN.md` | 中文需求阅读版 | `reader_copy_confirmed`；用户已确认现有需求方向，本文仍不替代决策台账 |
 | `product/RELEASE1_REQUIREMENTS_TRACEABILITY_MATRIX.zh-CN.md` | 阶段 0.2 需求追踪矩阵 | `accepted_stage1_input`；连接需求、页面、API、模块、数据库和测试，作为阶段 1 的缺口基线 |
 | `PHASE2A_CRM_CASE_VERTICAL_SLICE.md` | 阶段 2A 实施记录 | `accepted_local`；记录 Student 读取与既有 Student 建案纵向切片的边界、实现和验证结果 |
+| `PHASE2B_ASSESSMENT_VERTICAL_SLICE.md` | 阶段 2B 实施记录 | `accepted_local`；记录 15 字段 Assessment、答案保存和背景收集门禁的边界与本地证据 |
 | `product/IDENTITY_CONTEXT.md` | Identity 领域术语 | `active_domain_language`；区分内部 Account Disable、Cognito Revoke Effect、Reconciliation Attempt 和 Revoke Receipt |
 | `decisions/R1X-DECISION-BASELINE-20260812.md` | Portal/Billing 决策基线 | `implementation_baseline_selected`；DP-01 至 DP-12 可约束本地实现，但真实启用仍需独立 gate |
 | `PRD_IMPLEMENTATION_DECISIONS.md` | 决策台账 | `authoritative_active`；保存已批准、修订、取代和待决事项 |
@@ -107,6 +108,7 @@
 | `reader_copy_confirmed` | 中文阅读版中的需求方向已经确认；权威规则仍以决策台账为准 |
 | `draft_for_user_review` | 已完成初稿或静态审计，等待用户核对后才能进入下一步骤 |
 | `accepted_stage1_input` | 阶段 0.2 审计已确认，可作为阶段 1 排序输入；仍需随代码进度更新 |
+| `implemented_local_pending_acceptance` | 已在本地完成实现和聚焦验证，等待用户人工验收；不自动授权提交、推送或进入下一阶段 |
 | `authoritative_active` | 当前权威来源，仍需遵守其内部 gate |
 | `adopted_amendment` | 已采纳的局部修订，覆盖被明确点名的旧内容 |
 | `active_with_later_constraints` | 内容仍有用，但必须结合后续决策读取 |
