@@ -10,7 +10,7 @@
 
 ## 2. 当前执行边界
 
-截至 2026-08-18，接手阶段 0.1 的范围确认和阶段 0.2 的需求追踪审计均已完成。阶段 1 已完成本地依赖底座、数据库迁移、可切换的本地/Cognito 身份入口、PostgreSQL 合成身份与持久化 Session，以及业务模块的 `domain / application / infrastructure` 分层整理；下一步是阶段 2 的首个内部 ERP API v1 纵向闭环。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码版本绑定的实现记录和验证证据继续保留在代码仓库 `docs/`。
+截至 2026-08-18，接手阶段 0.1 的范围确认和阶段 0.2 的需求追踪审计均已完成。阶段 1 已完成本地依赖底座、数据库迁移、可切换的本地/Cognito 身份入口、PostgreSQL 合成身份与持久化 Session，以及业务模块的 `domain / application / infrastructure` 分层整理。阶段 2A 已在本地贯通 CRM Student 读取和“从既有 Student 建立 K12 ServiceCase”的首个 API v1 纵向切片，并于 2026-08-18 通过用户人工验收；提交后再单独确认 2B。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码、迁移和测试仍是实际完成度的最终证据。
 
 当前不授权：
 
@@ -43,6 +43,7 @@
 | `TAKEOVER_PHASE0_SCOPE_BASELINE.md` | 英文接手范围基线 | `accepted_current_scope`；与中文阅读版保持相同语义 |
 | `product/RELEASE1_REQUIREMENTS_READER.zh-CN.md` | 中文需求阅读版 | `reader_copy_confirmed`；用户已确认现有需求方向，本文仍不替代决策台账 |
 | `product/RELEASE1_REQUIREMENTS_TRACEABILITY_MATRIX.zh-CN.md` | 阶段 0.2 需求追踪矩阵 | `accepted_stage1_input`；连接需求、页面、API、模块、数据库和测试，作为阶段 1 的缺口基线 |
+| `PHASE2A_CRM_CASE_VERTICAL_SLICE.md` | 阶段 2A 实施记录 | `accepted_local`；记录 Student 读取与既有 Student 建案纵向切片的边界、实现和验证结果 |
 | `product/IDENTITY_CONTEXT.md` | Identity 领域术语 | `active_domain_language`；区分内部 Account Disable、Cognito Revoke Effect、Reconciliation Attempt 和 Revoke Receipt |
 | `decisions/R1X-DECISION-BASELINE-20260812.md` | Portal/Billing 决策基线 | `implementation_baseline_selected`；DP-01 至 DP-12 可约束本地实现，但真实启用仍需独立 gate |
 | `PRD_IMPLEMENTATION_DECISIONS.md` | 决策台账 | `authoritative_active`；保存已批准、修订、取代和待决事项 |
