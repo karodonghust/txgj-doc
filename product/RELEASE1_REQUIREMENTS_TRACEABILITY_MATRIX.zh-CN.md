@@ -53,7 +53,7 @@
 | R1-12 | 平台只统计推进中案件数量并显示合同参考值，不计算金额；第 13 章，`DP-06`、`DP-09`、`DP-11` | `/platform/billing` | `/api/v1/platform/billing/overview` | `modules/platform-billing` | `platform_billing_contract_versions`、`platform_billing_metric_snapshots`、`platform_billing_subscription_projections`、`cases_billing_projection_events` | `platform-billing-persistence`、`platform-billing-overview-route`、`platform-billing-schema-contract`、`platform-billing/contract-policy` | `contract_only`：计数和权限规则、页面模型及表存在；默认 runtime 不可用；尚未从本地案件事件生成月底快照 |
 | R1-13 | 使用受控事件逐案重建合成/未来既有案件；第 3、16 章，`DEC-061`、`DEC-067` | `/cases/reconstructions/new`、`/cases/reconstructions/[reconstructionId]` | `/api/v1/cases/reconstructions` | `modules/cases/domain/reconstruction`、`modules/cases/application/reconstruction`、`modules/cases/infrastructure/reconstruction` | `cases_reconstructions`、`cases_reconstruction_versions`、`cases_reconstruction_events`、`cases_reconstruction_gaps`、`cases_reconstruction_activations` | `case-reconstruction-workflow`、`case-reconstruction-route`、`case-reconstruction-schema`、`case-reconstruction-ui-model` | `contract_only`：事件契约、UI 模型、路由和表存在；默认 runtime 不可用；当前阶段只允许合成数据，不授权真实案件 |
 | R1-14 | 明确互斥的 `local-synthetic` 运行组合；阶段 0.1 当前范围 | 所有 Release 1 页面 | 为上述 v1 路由提供本地依赖；`/api/v1/local/readiness` | fail-closed 本地配置、迁移 runner、依赖探测、身份 mode adapter，以及 Identity、CRM、Case/Assessment/首个 Case transition 的 PostgreSQL 本地 Repository | PostgreSQL 17；LocalStack 模拟 S3/SQS；ClamAV | 25 条 migration ledger、62 张 public 表；五角色 Session、CRM/Case 2A、Assessment 2B 和 Case transition 2C 本地证据；应用 readiness 五项全 ready | `foundation_runtime_partial`：底座和首批内部纵向切片可运行；SchoolTarget、Task、Document、Worker、Portal 和 Platform Billing 等其他 runtime 仍缺失 |
-| R1-X01 | AI/知识库、外部 AI 流程不在 Release 1；第 3 章 | `/ai`、`/admin/knowledge` | `/api/knowledge` | `modules/future/domain/feature-contracts.ts`、`modules/future/infrastructure/knowledge-db.ts` | 当前组合不创建知识库表 | `future-scope` 架构测试验证 Sidebar 只渲染不可点击占位；模块边界测试验证知识库 adapter fail closed | `contract_only`：未来功能在 Release 1 导航中不可点击，Knowledge adapter 拒绝执行且不再请求时建表；直接页面路由的统一拒绝边界仍需后续核验 |
+| R1-X01 | AI/知识库、外部 AI 流程不在 Release 1；第 3 章 | 无功能页面；导航只允许不可点击占位 | 无 Release 1 API | `modules/future/domain/feature-contracts.ts` | 无知识库表或 persistence adapter | `future-scope` 验证导航占位；`module-boundaries` 验证 AI/Knowledge 页面、Route Handler 和 persistence adapter 不存在 | `contract_only`：只保留运行时无关的禁用契约与导航占位元数据；Release 1 不暴露页面、API、job、credential 或 data-write 表面；浏览器直接 URL 的 404/不可用证据待里程碑验收补充 |
 
 ## 4. 16 字段评估差异
 
@@ -97,7 +97,7 @@
 | GAP-04：缺少核心 read model | 部分关闭 | Student 与 Case 已由 API v1/PostgreSQL 提供列表和详情；Task、Document 等模块仍不可用 | 各后续模块逐一建立最小查询 API，页面退出 Mock/legacy service |
 | GAP-05：16 字段与正式 15 字段 schema 冲突 | 正式路径已关闭 | 阶段 2B 明确采用四层 15 字段版本化 schema，旧 16 字段 preview 不写入正式 Assessment | 后续单独退出旧 preview；新增业务字段必须走版本化 schema 决策，不直接映射旧字段 |
 | GAP-06：学校数据存在 legacy 与目标两套写入路径 | P1 | 审核决定和工单仍依赖 Neon 请求时建表 | 定义快照转换/重新发布规则，并把可写状态迁入受迁移管理的本地 Postgres |
-| GAP-07：未来功能直接路由边界仍需核验 | P1 | 导航已不可点击，但仍需证明直接 URL 不能进入 Release 1 功能 | 知识库/AI 直接路由在当前组合中统一拒绝访问，并保留架构与浏览器证据 |
+| GAP-07：未来功能直接路由边界 | 架构边界已关闭；浏览器证据待补 | 页面、API 和 persistence adapter 已从活跃源码移除，架构测试阻止重新引入；尚未执行里程碑浏览器 404/不可用验证 | 保持源码缺失与架构测试，并在获批的浏览器验收批次补充直接 URL 证据 |
 | GAP-08：测试主要使用 fake，没有当前本地端到端证据 | P1 | 无法证明页面、API、数据库和 worker 共同可用 | 首个开发切片完成聚焦单元/集成、真实本地 Postgres 和浏览器证据 |
 
 ## 6. 阶段 0.2 结论与下一确认点
