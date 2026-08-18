@@ -908,3 +908,10 @@ Phase 0  contracts / harness / threat model
 - WAF 啟用 AWS managed core 與 known-bad-input rules；rate limit 保持可配置且無 production default，部署前必須以 exact payload 另行批准。
 - P3-10 唯一可 apply identity 是保存的 binary `.tfplan` SHA-256。Redacted plan JSON、provider lockfile 和 source-tree hashes 是補充 evidence，不能代替 binary plan identity；任何 identity mismatch 一律停止。
 - AWS account、Terraform backend、CIDR、ACM certificate、container image digest、notification recipients 等值全部是必填 external exact payload；Git 不得提供 production default、placeholder fallback 或可被誤用的隱式值。
+
+### DEC-069：統一權限與配置治理
+
+- 狀態：`accepted_for_planning`（2026-08-18 使用者批准架構設計並列入開發計畫；不等於批准 production config、deployment 或真實資料）
+- Role、capability、resource、scope、action 與穩定 denial code 是程式契約；role-capability 關係採 organization-scoped immutable versioned policy，只有明確 allow，缺失即 deny。首版由追加 migration 固定現有已批准矩陣，Release 1 不提供任意線上編輯器。
+- Access module 是 workspace capability 的唯一服務端決策入口；Route Handler、Service、page guard 和 navigation registry 共用 capability ID。UI visibility 只改善體驗，不能替代 owning repository 在同一 transaction 重新檢查 organization、membership、RoleBinding、resource assignment、scope、expiry 和 policy version。
+- 配置分為安全不變量、版本化業務策略、部署運行配置與 organization 展示配置四層；不得以一個通用 key-value 表混合承載。詳見 `decisions/ACCESS_AND_CONFIGURATION_ARCHITECTURE_20260818.md`，並依 `P2-13`、`P2-14`、`P2-15` 實施。
