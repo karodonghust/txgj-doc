@@ -10,7 +10,7 @@
 
 ## 2. 当前执行边界
 
-截至 2026-08-18，接手阶段 0 和阶段 1 已完成。阶段 2A 已在本地贯通 CRM Student 读取和“从既有 Student 建立 K12 ServiceCase”的首个 API v1 纵向切片，并通过用户人工验收。阶段 2B 已贯通 15 字段 Assessment 读取、逐字段保存、明确语义状态和 `background_complete` 门禁，并于 2026-08-18 获得用户验收，代码提交为 `9ef226a`。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码、迁移和测试仍是实际完成度的最终证据。
+截至 2026-08-18，接手阶段 0 和阶段 1 已完成。阶段 2A 已在本地贯通 CRM Student 读取和“从既有 Student 建立 K12 ServiceCase”的首个 API v1 纵向切片，并通过用户人工验收。阶段 2B 已贯通 15 字段 Assessment 读取、逐字段保存、明确语义状态和 `background_complete` 门禁，并于 2026-08-18 获得用户验收，代码提交为 `9ef226a`。阶段 2C 已完成 Primary Advisor 案件推进和 Founder 带原因回退的本地实现、端到端验证及用户验收，代码提交 `c22c04e` 已推送至 `origin/main`。当前范围基线为本仓库根目录的 `TAKEOVER_PHASE0_SCOPE_BASELINE.md`，中文阅读版为 `TAKEOVER_PHASE0_SCOPE_BASELINE.zh-CN.md`；代码、迁移和测试仍是实际完成度的最终证据。
 
 当前不授权：
 
@@ -45,6 +45,7 @@
 | `product/RELEASE1_REQUIREMENTS_TRACEABILITY_MATRIX.zh-CN.md` | 阶段 0.2 需求追踪矩阵 | `accepted_stage1_input`；连接需求、页面、API、模块、数据库和测试，作为阶段 1 的缺口基线 |
 | `PHASE2A_CRM_CASE_VERTICAL_SLICE.md` | 阶段 2A 实施记录 | `accepted_local`；记录 Student 读取与既有 Student 建案纵向切片的边界、实现和验证结果 |
 | `PHASE2B_ASSESSMENT_VERTICAL_SLICE.md` | 阶段 2B 实施记录 | `accepted_local`；记录 15 字段 Assessment、答案保存和背景收集门禁的边界与本地证据 |
+| `PHASE2C_CASE_STAGE_TRANSITION.md` | 阶段 2C 实施记录 | `accepted_local`；记录首个案件阶段推进、回退、数据库边界和本地证据 |
 | `product/IDENTITY_CONTEXT.md` | Identity 领域术语 | `active_domain_language`；区分内部 Account Disable、Cognito Revoke Effect、Reconciliation Attempt 和 Revoke Receipt |
 | `decisions/R1X-DECISION-BASELINE-20260812.md` | Portal/Billing 决策基线 | `implementation_baseline_selected`；DP-01 至 DP-12 可约束本地实现，但真实启用仍需独立 gate |
 | `PRD_IMPLEMENTATION_DECISIONS.md` | 决策台账 | `authoritative_active`；保存已批准、修订、取代和待决事项 |
