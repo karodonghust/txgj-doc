@@ -3,8 +3,8 @@
 | 属性 | 内容 |
 | --- | --- |
 | 文档状态 | `active_single_source_of_truth` |
-| 基线版本 | `BR-BASELINE-20260908-v37` |
-| 生效日期 | 2026-09-08 |
+| 基线版本 | `BR-BASELINE-20260919-v53` |
+| 生效日期 | 2026-09-19 |
 | 决策人 | 项目负责人（本 Codex 对话用户） |
 | 适用范围 | Tianxingguoji Release 1 业务逻辑 |
 | 不代表 | 代码已经实现、数据库已经迁移、测试已经通过或生产已经上线 |
@@ -64,7 +64,7 @@
 | CRM / 软删除 | `confirmed` | Advisor 申请、Founder 决定；有未结案 Case 或当前 Guardian 关系时禁止删除；`deleted` 不可业务查看且 Release 1 不可恢复 |
 | Shared | `confirmed` | 不重复产生副作用、写入识别组织和操作人的业务要求已确认；实现方式归技术设计 |
 | Tasks 模块通用设计 | `confirmed` | 自动任务范围、分派生命周期、逾期和完成规则已确认；其余归技术设计 |
-| Schools 模块通用设计 | `confirmed` | provisional School、Founder 统一审核、历史版本和发布边界已确认 |
+| Schools 模块通用设计 | `confirmed` | provisional School、学校字段 V1、单校抓取及页面可见用户启用、历史版本已确认；人工治理仍由 Founder 审核 |
 | Documents 模块通用设计 | `confirmed` | 私有存储、版本与扫描、下载权限和软删除边界已确认 |
 | Notifications 模块通用设计 | `confirmed` | 站内通知范围、触发节点、接收人、去重和隐私边界已确认 |
 | Audit & Operations | `confirmed` | 关键操作审计、事务一致性、重复请求和敏感信息边界已确认 |
