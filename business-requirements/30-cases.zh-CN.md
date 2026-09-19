@@ -126,3 +126,9 @@ preparing / submitted / interview / waitlisted -> withdrawn
 客户终止整体服务时，进行中的 SchoolTarget 记为 `withdrawn`，相关未完成 Task 取消并保留历史，再由 Founder 人工结案。以后重新签约必须创建新的 ServiceCase。
 
 ServiceCase 不允许删除或软删除，只能按照业务结果取消服务并人工结案。ServiceCase 及其状态、SchoolTarget、Task 和相关历史记录必须永久保留在数据库中，不得执行物理删除。
+
+## BR-015 试用等级对案件规则的取代范围
+
+状态：`confirmed`（试用实施）
+
+对显式设置试用等级的员工，BR-030/031/032/033/034/039 的旧角色限定按 BR-015 取代（旧角色限制在此范围为 `superseded`）：Founder 和 L1 可操作全部业务案件及 Assessment；L2 可创建、维护、暂停及恢复获授权分类的案件，不可批准候选名单或结案；L3 不可读写完整案件或 Assessment。Founder/L1 可批准名单及人工结案，仍满足原有版本、Guardian 确认和结案条件。案件分类不从同一学生或 Assessment 偏好自动推断，不自动共享其他分类案件。既有业务状态、校验和永久保留要求不变。

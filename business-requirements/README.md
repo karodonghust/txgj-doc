@@ -3,7 +3,7 @@
 | 属性 | 内容 |
 | --- | --- |
 | 文档状态 | `active_single_source_of_truth` |
-| 基线版本 | `BR-BASELINE-20260919-v53` |
+| 基线版本 | `BR-BASELINE-20260919-v54` |
 | 生效日期 | 2026-09-19 |
 | 决策人 | 项目负责人（本 Codex 对话用户） |
 | 适用范围 | Tianxingguoji Release 1 业务逻辑 |
@@ -33,7 +33,7 @@
 | 文件 | BR 范围 | 内容 |
 | --- | --- | --- |
 | [`00-product-scope.zh-CN.md`](00-product-scope.zh-CN.md) | `BR-001`–`BR-003` | Release 1 目标、包含和排除范围 |
-| [`10-identity-access.zh-CN.md`](10-identity-access.zh-CN.md) | `BR-010`–`BR-014` | 角色、员工资料、授权模型和内部账号邀请 |
+| [`10-identity-access.zh-CN.md`](10-identity-access.zh-CN.md) | `BR-010`–`BR-015` | 角色、员工资料、授权模型和内部账号邀请 |
 | [`20-crm.zh-CN.md`](20-crm.zh-CN.md) | `BR-020`–`BR-029` | Student、Guardian、关系、建档和客户来源 |
 | [`30-cases.zh-CN.md`](30-cases.zh-CN.md) | `BR-030`–`BR-034`、`BR-039` | 案件、Assessment、选校和结案 |
 | [`40-tasks.zh-CN.md`](40-tasks.zh-CN.md) | `BR-035`–`BR-037` | 申请、面试和 Task 通用规则 |
@@ -70,4 +70,6 @@
 | Audit & Operations | `confirmed` | 关键操作审计、事务一致性、重复请求和敏感信息边界已确认 |
 | External Portal | `confirmed` | 单 Case 只读边界、字段白名单、7 天授权和撤销规则已重新确认；会话与 Token 归技术设计 |
 | Platform Billing | `confirmed` | Release 1 整体排除；旧计数和合同参考值规则标记为 `superseded` |
-| Future | `confirmed` | 销售收费、外部渠道与 AI、非 K12、多组织及延后角色和资料能力均不在 Release 1，不预建业务实体 |
+| Future | `confirmed` | 销售收费、外部渠道与 AI、非 K12 及延后角色和资料能力均不在 Release 1，不预建业务实体；多组织按 BR-001 在整个系统范围排除 |
+
+试用授权补充：BR-015 已获项目负责人授权实施，按 Founder/L1/L2/L3 等级、分类及任务范围授权；上表旧基础角色描述仅保留历史账号兼容语义，不与新等级取并集。客户未逐项验收，生产迁移及部署未获授权。
