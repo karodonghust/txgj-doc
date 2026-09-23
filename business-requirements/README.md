@@ -3,8 +3,8 @@
 | 属性 | 内容 |
 | --- | --- |
 | 文档状态 | `active_single_source_of_truth` |
-| 基线版本 | `BR-BASELINE-20260920-v56` |
-| 生效日期 | 2026-09-20 |
+| 基线版本 | `BR-BASELINE-20260923-v57` |
+| 生效日期 | 2026-09-23 |
 | 决策人 | 项目负责人（本 Codex 对话用户） |
 | 适用范围 | Tianxingguoji Release 1 业务逻辑 |
 | 不代表 | 代码已经实现、数据库已经迁移、测试已经通过或生产已经上线 |
@@ -64,7 +64,7 @@
 | CRM / 软删除 | `confirmed` | Advisor 申请、Founder 决定；有未结案 Case 或当前 Guardian 关系时禁止删除；`deleted` 不可业务查看且 Release 1 不可恢复 |
 | Shared | `confirmed` | 不重复产生副作用、写入识别组织和操作人的业务要求已确认；实现方式归技术设计 |
 | Tasks 模块通用设计 | `confirmed` | 自动任务范围、分派生命周期、逾期和完成规则已确认；其余归技术设计 |
-| Schools 模块通用设计 | `confirmed` | D4 按 EDB 编号界定学校粒度、N2 同校按学年/招生类型/年级匹配及未知学年每次新建候选已确认；人工合并候选功能仍为 `pending_review`。首次 EDB 全量导入、逐校周期抓取（最快每天一次）、人工/爬虫学校免额外审批进入可用状态、不显示未验证标记已确认；v49 仅豁免首次 EDB 自动带入网址，后续人工来源变更仍须 Founder 审批；停用/退场机制及与 v52 手动补充的交界仍为 `pending_review`，详见 BR-051 |
+| Schools 模块通用设计 | `confirmed` | D4 按 EDB 编号界定学校粒度、N2 同校按归一化后的学年/招生类型/年级匹配及未知学年每次新建候选已确认；本地 DSE 学年/年级标准已确认，学校学制判定与枚举/区间等价仍为 `pending_review`，人工合并候选功能仍为 `pending_review`。首次 EDB 全量导入、逐校周期抓取（最快每天一次）、人工/爬虫学校免额外审批进入可用状态、不显示未验证标记已确认；v49 仅豁免首次 EDB 自动带入网址，后续人工来源变更仍须 Founder 审批；停用/退场机制及与 v52 手动补充的交界仍为 `pending_review`，详见 BR-051 |
 | Documents 模块通用设计 | `confirmed` | 私有存储、版本与扫描、下载权限和软删除边界已确认 |
 | Notifications 模块通用设计 | `confirmed` | 站内通知范围、触发节点、接收人、去重和隐私边界已确认 |
 | Audit & Operations | `confirmed` | 关键操作审计、事务一致性、重复请求和敏感信息边界已确认 |
