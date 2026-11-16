@@ -344,3 +344,142 @@ Founder 顶部导航：今日工作、案件、学生与监护人、学校资料
 无数据库重装或迁移，未清除三所旧合成学校、未搬运旧原件、未使用真实学校资料写库。一次性测试容器已删除；结束时只有 `tianxing-local-postgres-1`，数据卷只有 `tianxing-local_tianxing_postgres_data`。本轮临时日志清理后不留 /tmp 产物；本地应用仍运行，可登录、可点。
 
 回退：本票未改变结构，可切回集成分支的应用版本；不要混用新分页接口与旧目录客户端。合成验收数据是正常维护产生的数据，不随代码回退删除。仍需负责人核对后另行合并，不执行下一张票。
+
+
+## 视觉收尾（2026-11-16 续票）
+
+本节是当前续票结果；前文为首票证据，旧截图与当时的学段选项记录保留。本轮页面调整已完成，自动测试 182 项通过、0 失败、0 跳过，类型检查通过。**status: partial**：观感待负责人核对；原生 PNG 截图受工具限制，不能宣称已消除截图色差；首页仍有一项既有 lint 错误。
+
+```text
+status: partial
+owner: frontend
+scope: 两仓库现有 codex/ui-standard-first-pages 分支；本地合成页面
+changed: 阅读态减量、卡标题编辑、技术资料折叠、校址编辑态删除、搜索框优先级、真实昵称问候、登录间距；18 张新截图转存 PNG
+not_run: 原生无损 PNG 捕获；线上验证、部署、合并；未重复上一票全部导航点击和两账号完整建校/恢复/双窗口流程
+risks_or_stop_conditions: 截图颜色与计算值的差异未能确定具体捕获环节；不据此修改已确认色值。无权限、数据库或未答业务问题阻断。
+```
+
+### 九项逐条结果
+
+| 项目 | 结果 | 本地证据与边界 |
+|---|---|---|
+| 1. 学段选项 | 已完成 | 按本轮负责人明确决定，固定「幼稚園、小學、中學」，另有「未知」；不再引用中学名单作为学段完整枚举。其余四组选项未改。L3 打开旧「合成學段」记录，阅读态原样显示，编辑下拉仍选中该旧值，没有写回替换。 |
+| 2. 未填写资料 | 已完成 | 阅读态不逐项显示未知，卡底「尚有 N 項未填寫」；空值按既有 null/空字符串识别，布尔「否」仍展示。编辑态字段完整。N 统计卡内资料项，校址字段有任一校址未填即计一项，技术项在系统区单独计数；不是新增完整度状态。 |
+| 3. 系统资料 | 已完成 | 内部编号、爬虫来源编号、资料页网址移到页底默认收起的「系統資料」。展开后可见真实内部编号；后两项仍可在原校址编辑表单填写，内部编号仍不可编辑。 |
+| 4. 编辑入口 | 已完成 | 页头不再有编辑主按钮，五组资料的标题右侧为文字链接式按钮；进入编辑后才出现本组取消/储存。UI_STANDARD.md 已同步。 |
+| 5. 校址区 | 已完成 | 共用值只显示一次，各校址小块仅显示已有的不同值；没有独有已填值时不渲染空小块。删除仅在编辑态，名单/最后校址禁删规则未变。L3 实际删除本次新增的合成校址 3，校址 1 的称呼不变；另一个未保存的地址草稿仍在，随后取消，没有写入。 |
+| 6. 搜索框和主色 | 搜索已修正；截图色差未能确认 | 旧 globals.css 的属性选择器覆盖了新组件类。主色计算值正确；见下表。没有改全局旧控件规则或色值。 |
+| 7. 今日工作 | 已完成 | 移除主色区下方重复标题/说明；重新载入为弱按钮。复用现有登录资料读取，实际问候「ENV01 Synthetic founder，今天一起把事情做好。」；昵称读取失败保留原通用问候，不编造姓名。L3 原本无首页权限的行为未变。 |
+| 8. 登录间距 | 已完成 | 浏览器读取标语后说明段的 margin-top 为 12px；桌面/手机均已重拍。 |
+| 9. 截图、测试与报告 | 部分完成 | 18 张重新捕获的图像全部提供 PNG 文件，见下方；接口只提供 JPEG，因此这些是新拍 JPEG 转存 PNG，不是原生无损 PNG，也不把转存说成色差修复。报告已追加，测试与类型检查实际重跑。 |
+
+### 搜索框原因与计算样式
+
+`app/globals.css` 的 `input[type="search"]` 比原 `.ui-search` / `.ui-top-search` 更具体，覆盖圆角、字体与内边距；原生搜索框并非没有读取 56px 高度。仅把共用组件选择器限定为 `.ui-field .ui-input`、`.ui-field .ui-search`、`.ui-field .ui-top-search`，并补同范围焦点色；不影响旧页面非共用控件。
+
+| 浏览器读取项 | 修正前 | 修正后 |
+|---|---|---|
+| 目录搜索框 | 高 56px、圆角 6px、字 13px | 高 56px、圆角 999px、字 16px |
+| 顶栏搜索框 | 高 44px、圆角 6px、字 13px | 高 44px、圆角 999px、字 16px |
+| 目录焦点边框 | 旧全局焦点样式 | rgb(15, 118, 110) |
+| 首页主色块 | rgb(15, 118, 110) | 同值，即 #0F766E |
+| 登录主色区 | 未在本轮修改前读取 | rgb(15, 118, 110) |
+| 登录说明与标语间距 | 本轮未记录修改前计算值 | 12px |
+
+截图接口的两种捕获方式均返回 JPEG 编码，且现有图没有嵌入 ICC 色彩描述。截图中主色像素与计算色值存在差异，具体产生于哪一捕获/色彩转换环节**未能确认**；没有擅自调整 CSS 主色、重绘截图或按猜测套用色彩配置。PNG 文件只是本轮截图的像素转存，避免后续再次 JPEG 编码，不能恢复原始捕获中已经损失的信息。若验收要求原生无损 PNG，此项仍待支持该格式的截图渠道核对。
+
+### 本轮实际验证
+
+| 命令/操作 | 结果 |
+|---|---|
+| `node --conditions=react-server --test tests/integration/school-directory-structure-postgresql.test.ts tests/unit/schools/manual-directory.test.ts tests/integration/school-directory-maintenance-postgresql.test.ts` | 30 通过：结构 14、手工维护 16；0 失败/跳过 |
+| 前文既有学校 66 项同一命令集合 | 66 通过、0 失败/跳过 |
+| `pnpm test:migration` | 11 通过、0 失败/跳过 |
+| `pnpm test:architecture` | 25 通过、0 失败/跳过 |
+| `pnpm db:baseline:check` | verified：76 源、77 文件；本票未改基线 |
+| `node --conditions=react-server --test tests/migration/one-role-baseline.test.ts` | 28 通过、0 失败/跳过 |
+| `pnpm test:one-role-baseline-postgresql` | 2 通过、0 失败/跳过；一次性本地 PostgreSQL 17 |
+| `node --test tests/unit/auth/login-page.test.ts tests/unit/layout/workspace-shell.test.ts tests/unit/ui/standard.test.ts` | 20 通过、0 失败/跳过；新增空值隐藏但保留否/0、完整卡计数、标题编辑入口渲染检查 |
+| `pnpm typecheck` | 退出码 0 |
+| `pnpm exec eslint` 本轮变动的五个 TS/TSX 文件 | 首页既有 `react-hooks/set-state-in-effect` 1 错误；其余四文件 0 错误。未关闭规则或改变既有业务加载逻辑。上票 AppFrame 错误不在本轮改动文件范围，未重跑该文件。 |
+| Founder 浏览器 | 登录、实名问候、目录搜索/空结果、全部新学段、编辑多项一次保存、否值展示、加校址/独有电话对照、履历与系统区、旧学校三条合成记录均实际观察 |
+| L3 浏览器 | 直达目录、阅读/编辑、技术字段仍可编辑、删除本轮新加合成校址、其他地址草稿保留后取消、最后校址禁删、旧学段保留；首页既有拒绝未变 |
+| 1440×1000 与 390×844 响应式 | 九种状态均捕获；读取页面 scrollWidth 不大于 innerWidth，未出现页面级横向溢出 |
+
+本轮未重复建校、逐字段恢复和双窗口冲突的浏览器流程，前票证据不冒充本轮；相关真实 PostgreSQL 回归已重跑。未改登录机制、权限、接口、数据库结构或后端写入规则。页面删除后只清理被删除校址的草稿，其余输入保留；测试的校址删除是合成资料的既有软删除，不是清除三所合成学校。
+
+### 本轮文件清单与交付边界
+
+应用仓库修改 9 个文件，无新增文件：
+
+- `app/(erp)/school-directory/page.tsx`
+- `app/(erp)/today/page.tsx`
+- `components/ui/standard.tsx`
+- `components/ui/standard.css`
+- `modules/schools/domain/directory-options.ts`
+- `i18n/zh-TW.json`
+- `i18n/en.json`
+- `docs/implementation/UI_STANDARD.md`
+- `tests/unit/ui/standard.test.ts`
+
+文档仓库修改本报告，新增同目录下 18 个 PNG；前票 18 张 JPEG 保留为历史证据。新增文案只有「尚有 {{count}} 項未填寫」「系統資料」及含当前昵称的问候语（两语种同时登记）。学段选项是本轮负责人明示授权的 UI 选择项，不推导身份、权限或名单导入规则。
+
+应用本轮提交：`397eb60`；文档本轮提交为本报告及 18 张 PNG 所在提交。继续使用两仓库同名分支；不建 PR、不合并、不部署。不改另两处旧学校页面、选校、权限与数据库；不访问真实网站、不调用 LLM、不运行爬虫、不写真实学校资料。AGENTS.md 与 ui-style-c 未提交；school-tracker 零改动。一次性容器/临时文件清理，最终仅保留本地开发数据库卷；本地应用保持可登录、目录可操作。
+
+### 视觉收尾截图（本轮重新捕获，PNG 转存）
+
+以下桌面/手机各 9 张，共 18 张。图像未经重绘或调色；格式限制见上文。
+
+#### 登录
+
+![桌面：登录](ui-standard-first-pages.2026-11-16.zh-CN/desktop-login.png)
+
+![手机：登录](ui-standard-first-pages.2026-11-16.zh-CN/mobile-login.png)
+
+#### 今日工作
+
+![桌面：今日工作](ui-standard-first-pages.2026-11-16.zh-CN/desktop-today.png)
+
+![手机：今日工作](ui-standard-first-pages.2026-11-16.zh-CN/mobile-today.png)
+
+#### 学校目录
+
+![桌面：学校目录](ui-standard-first-pages.2026-11-16.zh-CN/desktop-list.png)
+
+![手机：学校目录](ui-standard-first-pages.2026-11-16.zh-CN/mobile-list.png)
+
+#### 详情阅读
+
+![桌面：详情阅读](ui-standard-first-pages.2026-11-16.zh-CN/desktop-detail.png)
+
+![手机：详情阅读](ui-standard-first-pages.2026-11-16.zh-CN/mobile-detail.png)
+
+#### 编辑
+
+![桌面：编辑](ui-standard-first-pages.2026-11-16.zh-CN/desktop-edit.png)
+
+![手机：编辑](ui-standard-first-pages.2026-11-16.zh-CN/mobile-edit.png)
+
+#### 多校址对照
+
+![桌面：多校址对照](ui-standard-first-pages.2026-11-16.zh-CN/desktop-campuses.png)
+
+![手机：多校址对照](ui-standard-first-pages.2026-11-16.zh-CN/mobile-campuses.png)
+
+#### 履历展开
+
+![桌面：履历展开](ui-standard-first-pages.2026-11-16.zh-CN/desktop-history.png)
+
+![手机：履历展开](ui-standard-first-pages.2026-11-16.zh-CN/mobile-history.png)
+
+#### 空结果
+
+![桌面：空结果](ui-standard-first-pages.2026-11-16.zh-CN/desktop-empty.png)
+
+![手机：空结果](ui-standard-first-pages.2026-11-16.zh-CN/mobile-empty.png)
+
+#### 旧学校页与新外壳
+
+![桌面：旧学校页与新外壳](ui-standard-first-pages.2026-11-16.zh-CN/desktop-old-page.png)
+
+![手机：旧学校页与新外壳](ui-standard-first-pages.2026-11-16.zh-CN/mobile-old-page.png)
