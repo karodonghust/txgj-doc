@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C 學校目錄</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+body{margin:0}
+a{color:#374151;text-decoration:none}a:hover{color:#0F766E}
+</style>
+</head>
+<body>
+<div style="min-height: 960px; background: #F1F5F4; color: #1F2937; font-family: 'Noto Sans TC', sans-serif; font-size: 16px; line-height: 1.6">
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 40px; background: #FFFFFF; box-shadow: 0 1px 4px rgba(31,41,55,0.08)">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+<div style="font-size: 20px; font-weight: 700; color: #0F766E">天星教育</div>
+<nav aria-label="主選單" style="display: flex; flex-wrap: wrap; gap: 2px; font-size: 15px">
+<a href="02-today.html" style="padding: 10px 14px; border-radius: 999px">今日工作</a>
+<a href="03-case-list.html" style="padding: 10px 14px; border-radius: 999px">案件</a>
+<a href="#" style="padding: 10px 14px; border-radius: 999px">學生與監護人</a>
+<a href="#" aria-current="page" style="padding: 10px 14px; border-radius: 999px; background: #D5EFEB; color: #0B5A54; font-weight: 700">學校資料</a>
+<a href="#" style="padding: 10px 14px; border-radius: 999px">任務</a>
+<a href="#" style="padding: 10px 14px; border-radius: 999px">文件</a>
+<a href="#" style="padding: 10px 14px; border-radius: 999px">審計記錄</a>
+<a href="#" style="padding: 10px 14px; border-radius: 999px">管理</a>
+</nav>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<label style="display: flex; align-items: center"><span style="position: absolute; left: -9999px">搜尋</span><input placeholder="搜尋" style="width: 180px; height: 44px; box-sizing: border-box; padding: 0 18px; border: 1px solid #C5CFCD; border-radius: 999px; font: inherit; font-size: 15px; background: #F8FAF9"></label>
+<div aria-hidden="true" style="width: 44px; height: 44px; border-radius: 22px; background: #0F766E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700">陳</div>
+</div>
+</header>
+<div style="max-width: 1120px; margin: 0 auto; box-sizing: border-box; padding: 32px 40px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+<div>
+<h1 style="margin: 0; font-size: 32px; font-weight: 700">學校目錄</h1>
+<div style="color: #4B5563">找不到學校時，可以自行新增。</div>
+</div>
+<button type="button" style="height: 48px; padding: 0 22px; border: 2px solid #0F766E; border-radius: 999px; background: #0F766E; color: #FFFFFF; font: inherit; font-weight: 500">新增學校</button>
+</div>
+<label style="display: flex"><span style="position: absolute; left: -9999px">搜尋學校名稱</span><input placeholder="輸入學校中文或英文名稱" style="width: 100%; height: 56px; box-sizing: border-box; padding: 0 24px; border: 1px solid #C5CFCD; border-radius: 999px; font: inherit; font-size: 17px; background: #FFFFFF"></label>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 15px">
+<button type="button" style="height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: #0F766E; color: #FFFFFF; font: inherit; font-weight: 500">全部</button>
+<button type="button" style="height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: #FFFFFF; color: #1F2937; font: inherit">幼稚園</button>
+<button type="button" style="height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: #FFFFFF; color: #1F2937; font: inherit">小學</button>
+<button type="button" style="height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: #FFFFFF; color: #1F2937; font: inherit">中學</button>
+<label style="display: flex; align-items: center; gap: 8px; margin-left: 8px; font-size: 14px; color: #4B5563">地區
+<select style="height: 44px; padding: 0 14px; border: 1px solid #C5CFCD; border-radius: 999px; background: #FFFFFF; font: inherit; font-size: 15px; color: #1F2937"><option>全部地區</option><option>九龍城</option><option>沙田</option><option>中西區</option></select></label>
+</div>
+<section style="padding: 8px 28px 12px; background: #FFFFFF; border-radius: 16px; box-shadow: 0 2px 8px rgba(31,41,55,0.06)">
+<div style="overflow-x: auto">
+<table style="width: 100%; min-width: 720px; border-collapse: collapse; text-align: left; font-size: 15px">
+<thead><tr>
+<th style="padding: 14px 12px 10px 0; border-bottom: 1px solid #DDE4E2; font-size: 14px; font-weight: 500; color: #4B5563">學校</th>
+<th style="padding: 14px 12px 10px; border-bottom: 1px solid #DDE4E2; font-size: 14px; font-weight: 500; color: #4B5563">學段</th>
+<th style="padding: 14px 12px 10px; border-bottom: 1px solid #DDE4E2; font-size: 14px; font-weight: 500; color: #4B5563">資助類別</th>
+<th style="padding: 14px 12px 10px; border-bottom: 1px solid #DDE4E2; font-size: 14px; font-weight: 500; color: #4B5563">地區</th>
+<th style="padding: 14px 0 10px 12px; border-bottom: 1px solid #DDE4E2; font-size: 14px; font-weight: 500; color: #4B5563">來源</th>
+</tr></thead>
+<tbody>
+
+<tr>
+<td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #EDF1F0"><a href="06-school-detail.html" style="font-weight: 700; color: #1F2937">示範書院（合成資料）</a><div style="font-size: 14px; color: #4B5563">Demo College (Synthetic)</div></td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">中學</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">直資</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">九龍城、沙田</td>
+<td style="padding: 12px 0 12px 12px; border-bottom: 1px solid #EDF1F0"><span style="padding: 4px 14px; border-radius: 999px; background: #D5EFEB; color: #0B5A54; font-size: 14px; white-space: nowrap">顧問建檔</span></td>
+</tr>
+
+<tr>
+<td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #EDF1F0"><a href="06-school-detail.html" style="font-weight: 700; color: #1F2937">樣本國際學校</a><div style="font-size: 14px; color: #4B5563">Sample International School</div></td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">小學、中學</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">私立</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">中西區</td>
+<td style="padding: 12px 0 12px 12px; border-bottom: 1px solid #EDF1F0"><span style="padding: 4px 14px; border-radius: 999px; background: #D5EFEB; color: #0B5A54; font-size: 14px; white-space: nowrap">顧問建檔</span></td>
+</tr>
+
+<tr>
+<td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #EDF1F0"><a href="06-school-detail.html" style="font-weight: 700; color: #1F2937">合成小學</a><div style="font-size: 14px; color: #4B5563">Synthetic Primary School</div></td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">小學</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">資助</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">沙田</td>
+<td style="padding: 12px 0 12px 12px; border-bottom: 1px solid #EDF1F0"><span style="padding: 4px 14px; border-radius: 999px; background: #E5E9E8; color: #374151; font-size: 14px; white-space: nowrap">教育局名單</span></td>
+</tr>
+
+<tr>
+<td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #EDF1F0"><a href="06-school-detail.html" style="font-weight: 700; color: #1F2937">合成中學</a><div style="font-size: 14px; color: #4B5563">Synthetic Secondary School</div></td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">中學</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">資助</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">九龍城</td>
+<td style="padding: 12px 0 12px 12px; border-bottom: 1px solid #EDF1F0"><span style="padding: 4px 14px; border-radius: 999px; background: #E5E9E8; color: #374151; font-size: 14px; white-space: nowrap">教育局名單</span></td>
+</tr>
+
+<tr>
+<td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #EDF1F0"><a href="06-school-detail.html" style="font-weight: 700; color: #1F2937">示範幼稚園</a><div style="font-size: 14px; color: #4B5563">Demo Kindergarten</div></td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">幼稚園</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">私立</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">中西區</td>
+<td style="padding: 12px 0 12px 12px; border-bottom: 1px solid #EDF1F0"><span style="padding: 4px 14px; border-radius: 999px; background: #E5E9E8; color: #374151; font-size: 14px; white-space: nowrap">教育局名單</span></td>
+</tr>
+
+<tr>
+<td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #EDF1F0"><a href="06-school-detail.html" style="font-weight: 700; color: #1F2937">樣本女子中學</a><div style="font-size: 14px; color: #4B5563">Sample Girls’ Secondary School</div></td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">中學</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">官立</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">中西區</td>
+<td style="padding: 12px 0 12px 12px; border-bottom: 1px solid #EDF1F0"><span style="padding: 4px 14px; border-radius: 999px; background: #E5E9E8; color: #374151; font-size: 14px; white-space: nowrap">教育局名單</span></td>
+</tr>
+
+<tr>
+<td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #EDF1F0"><a href="06-school-detail.html" style="font-weight: 700; color: #1F2937">合成男子書院</a><div style="font-size: 14px; color: #4B5563">Synthetic Boys’ College</div></td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">中學</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">直資</td>
+<td style="padding: 12px; border-bottom: 1px solid #EDF1F0">九龍城</td>
+<td style="padding: 12px 0 12px 12px; border-bottom: 1px solid #EDF1F0"><span style="padding: 4px 14px; border-radius: 999px; background: #E5E9E8; color: #374151; font-size: 14px; white-space: nowrap">教育局名單</span></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 8px; font-size: 14px; color: #4B5563">
+<span>第 1–7 所，共 [學校總數] 所</span>
+<div style="display: flex; gap: 8px">
+<button type="button" disabled style="height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: #EEF1F0; color: #6B7280; font: inherit">上一頁</button>
+<button type="button" style="height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: #E5E9E8; color: #1F2937; font: inherit">下一頁</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</body>
+</html>
